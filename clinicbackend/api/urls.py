@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
-from api.views import UserProfileApiView,DoctorListView,AppointmentCreateView,AppointmentListView, LogoutView, SignupView
+from api.views import UserProfileApiView,DoctorListView,AppointmentCreateView,AppointmentListView, LogoutView, SignupView, AppointmentDeleteView
 
 urlpatterns = [
     path('signup/', SignupView.as_view(), name='api_signup'),
@@ -9,5 +9,6 @@ urlpatterns = [
     path('profile/',UserProfileApiView.as_view(),name='user_profile'),
     path('doctors/',DoctorListView.as_view(),name='doctor_list'),
     path('appointments/',AppointmentListView.as_view(),name='appointments_list'),
-    path('appointments/create/',AppointmentCreateView.as_view(),name='appointments_create')
+    path('appointments/create/',AppointmentCreateView.as_view(),name='appointments_create'),
+    path('appointments/<int:pk>/delete/', AppointmentDeleteView.as_view(), name='appointment_delete'),
 ]
