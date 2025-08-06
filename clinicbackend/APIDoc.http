@@ -1,0 +1,11 @@
+###
+POST http://127.0.0.1:8000/api/appointments/create/
+Content-Type: application/json
+Authorization: Token ca3bf53572fbbb9e06560fc504b2b7399ba8aaa9
+
+{
+    "patient_name": "Govind",
+    "age": 22,
+    "appointment_date": "2025-09-15",
+    "doctor_id": 1 
+}
