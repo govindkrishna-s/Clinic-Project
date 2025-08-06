@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import generics, views
+from rest_framework import generics, views, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from api.serializers import UserSerializer, DoctorSerializer, AppointmentSerializer
+from api.serializers import UserCreateSerializer, UserSerializer, DoctorSerializer, AppointmentSerializer
 from api.models import Doctor, Appointment
+from django.contrib.auth.models import User
 # Create your views here.
+
+class SignupView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
 
 class UserProfileApiView(views.APIView):
     authentication_classes=[TokenAuthentication]
@@ -35,3 +40,14 @@ class AppointmentListView(generics.ListAPIView):
     def get_queryset(self):
         user=self.request.user
         return Appointment.objects.filter(patient=user).order_by('-appointment_date')
+    
+class LogoutView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            request.user.auth_token.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
