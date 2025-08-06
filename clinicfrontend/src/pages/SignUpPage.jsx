@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import apiClient from '../services/api';
 
-const SignupPage = () => {
+const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-lg shadow-md">
+    <div className="w-full max-w-md p-8 space-y-6 bg-zinc-900 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center text-white">Create an Account</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -56,4 +56,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

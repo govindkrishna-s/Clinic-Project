@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import apiClient from '../services/api';
 
 const LoginPage = () => {
@@ -12,8 +12,10 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await apiClient.post('/login/', { username, password });
-      localStorage.setItem('authToken', response.data.token);
+      const response = await apiClient.post('/token/', { username, password });
+      
+      localStorage.setItem('authToken', response.data.access);
+      localStorage.setItem('refreshToken', response.data.refresh);
       window.location.href = '/doctors';
     } catch (err) {
       setError('Failed to login. Please check your credentials.');
@@ -22,23 +24,46 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="w-full max-w-md p-8 space-y-6 bg-zinc-900 rounded-xl shadow-lg">
+      <h2 className="text-3xl font-bold text-center text-white">
+        Welcome Back!
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <label className="block text-sm font-medium text-gray-300">Username</label>
+          <input 
+            type="text" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+            required 
+            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" 
+          />
         </div>
         <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <label className="block text-sm font-medium text-gray-300">Password</label>
+          <input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required
+            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" 
+          />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
-        <p className="text-sm text-center text-gray-400">
-                Don't have an account? <Link to="/signup" className="font-medium text-primary hover:underline">Sign Up</Link>
-            </p>
+
+        {error && <p className="text-sm text-center text-red-500">{error}</p>}
+        
+        <button type="submit" className="w-full btn-primary">
+          Login
+        </button>
       </form>
+      
+      <p className="text-sm text-center text-gray-400">
+        Don't have an account? 
+        <Link to="/signup" className="ml-1 font-medium text-primary hover:underline">
+          Sign Up
+        </Link>
+      </p>
     </div>
   );
 };

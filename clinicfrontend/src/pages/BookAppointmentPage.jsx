@@ -25,7 +25,7 @@ const BookAppointmentPage = () => {
 
     try {
       await apiClient.post('/appointments/create/', appointmentData);
-      setSuccess('Appointment booked successfully!');
+      setSuccess('Appointment booked successfully! Redirecting...');
       setTimeout(() => navigate('/appointments'), 2000);
     } catch (err) {
       if (err.response && err.response.data) {
@@ -39,15 +39,46 @@ const BookAppointmentPage = () => {
   };
 
   return (
-    <div>
-      <h2>Book an Appointment</h2>
-      <form onSubmit={handleSubmit}>
-        <div><label>Patient Name:</label><input type="text" value={patientName} onChange={(e) => setPatientName(e.target.value)} required /></div>
-        <div><label>Age:</label><input type="number" value={age} onChange={(e) => setAge(e.target.value)} required /></div>
-        <div><label>Appointment Date:</label><input type="date" value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} required /></div>
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        {success && <p style={{ color: 'green' }}>{success}</p>}
-        <button type="submit">Confirm Booking</button>
+    <div className="w-full max-w-lg p-8 space-y-6 bg-zinc-900 rounded-xl shadow-lg">
+      <h2 className="text-3xl font-bold text-center text-white">Book an Appointment</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-300">Patient Name</label>
+          <input 
+            type="text" 
+            value={patientName} 
+            onChange={(e) => setPatientName(e.target.value)} 
+            required 
+            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300">Age</label>
+          <input 
+            type="number" 
+            value={age} 
+            onChange={(e) => setAge(e.target.value)} 
+            required
+            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300">Preferred Appointment Date</label>
+          <input 
+            type="date" 
+            value={appointmentDate} 
+            onChange={(e) => setAppointmentDate(e.target.value)} 
+            required
+            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        {error && <p className="text-sm text-center text-red-500">{error}</p>}
+        {success && <p className="text-sm text-center text-green-500">{success}</p>}
+        
+        <button type="submit" className="w-full btn-primary">
+          Confirm Booking
+        </button>
       </form>
     </div>
   );
