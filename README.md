@@ -1,10 +1,7 @@
 # Clinic Appointment System
 A full-stack web application for booking and managing medical appointments, featuring a Django REST API backend and a responsive React frontend. This project was built as a demonstration of full-stack development skills.
 
-## 📸 Screenshots
-
-![SignUp](assets/signup.png) ![Login](assets/login.png) ![Doctors](assets/doctors.png)
-![List Appointment](assets/listappointment.png) ![Book Appointment](assets/bookappointment.png)
+[![Watch the demo](https://img.youtube.com/vi/cJwwCtp2n88/0.jpg)](https://youtu.be/cJwwCtp2n88)
 
 ## ✨ Features
 User Authentication: Secure user registration and login using email and password.
@@ -39,6 +36,15 @@ React Router
 Tailwind CSS
 
 Axios
+
+
+
+## 📸 Screenshots
+
+![SignUp](assets/signup.png) ![Login](assets/login.png) ![Doctors](assets/doctors.png)
+![List Appointment](assets/listappointment.png) ![Book Appointment](assets/bookappointment.png)
+
+
 
 ## 🚀 Getting Started
 To get a local copy up and running, follow these simple steps.
