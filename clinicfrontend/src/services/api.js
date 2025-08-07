@@ -27,16 +27,15 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    
+
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
         const refreshToken = localStorage.getItem('refreshToken');
-        const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+        const response = await apiClient.post('/api/token/refresh/', {
           refresh: refreshToken,
         });
-
         const newAccessToken = response.data.access;
         localStorage.setItem('authToken', newAccessToken);
 
