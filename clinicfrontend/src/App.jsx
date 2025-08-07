@@ -16,11 +16,13 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      await apiClient.post('/logout/');
+      const refreshToken = localStorage.getItem('refreshToken');
+      await apiClient.post('/logout/', { refresh: refreshToken });
     } catch (err) {
       console.error('Logout API call failed:', err);
     } finally {
       localStorage.removeItem('authToken');
+      localStorage.removeItem('refreshToken');
       window.location.href = '/login';
     }
   };

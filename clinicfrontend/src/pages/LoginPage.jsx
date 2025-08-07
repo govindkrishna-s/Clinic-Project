@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import apiClient from '../services/api';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      const response = await apiClient.post('/token/', { username, password });
+      const response = await apiClient.post('/users/login', { email, password });
       
       localStorage.setItem('authToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
@@ -31,11 +30,11 @@ const LoginPage = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-300">Username</label>
+          <label className="block text-sm font-medium text-gray-300">Email</label>
           <input 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
+            type="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
             required 
             className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" 
           />

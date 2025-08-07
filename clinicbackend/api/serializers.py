@@ -1,24 +1,21 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from api.models import Doctor,Appointment
+from api.models import Doctor,Appointment, User
 from django.utils import timezone
 
-class UserCreateSerializer(serializers.ModelSerializer):
+class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
+        model = User 
+        fields = ('email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model=User
-        fields=['id','username','email','first_name','last_name']
-        read_only_fields=['id']
+        model = User 
+        fields = ['id', 'email']
 
     
 class DoctorSerializer(serializers.ModelSerializer):

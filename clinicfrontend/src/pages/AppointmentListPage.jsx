@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../services/api';
-import ConfirmationModal from '../components/ConfirmationModal'; // Import the modal
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const AppointmentListPage = () => {
   const [appointments, setAppointments] = useState([]);
@@ -11,7 +11,7 @@ const AppointmentListPage = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await apiClient.get('/appointments/');
+        const response = await apiClient.get('/appointments');
         setAppointments(response.data);
       } catch (error) {
         console.error('Failed to fetch appointments:', error);

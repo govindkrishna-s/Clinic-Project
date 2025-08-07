@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiClient from '../services/api';
 
 const BookAppointmentPage = () => {
   const { doctorId } = useParams();
   const navigate = useNavigate();
+
+  const [doctor, setDoctor] = useState(null);
+  
   const [patientName, setPatientName] = useState('');
   const [age, setAge] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const response = await apiClient.get(`/doctors/${doctorId}/`);
+        setDoctor(response.data);
+      } catch (error) {
+        console.error("Failed to fetch doctor details:", error);
+      }
+    };
+    
+    fetchDoctor();
+  }, [doctorId]); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,28 +54,37 @@ const BookAppointmentPage = () => {
     }
   };
 
+  if (!doctor) {
+    return <p className="text-center text-gray-400">Loading doctor's information...</p>;
+  }
+
   return (
     <div className="w-full max-w-lg p-8 space-y-6 bg-zinc-900 rounded-xl shadow-lg">
-      <h2 className="text-3xl font-bold text-center text-white">Book an Appointment</h2>
+      <h2 className="text-3xl font-bold text-center text-white">
+        Book an Appointment with <br /> 
+        <span className="text-primary">Dr. {doctor.name}</span>
+      </h2>
+      <h3 className="text-center text-gray-400 -mt-4">{doctor.speciality}</h3>
+      
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-300">Patient Name</label>
+          <label className="block text-sm font-medium text-gray-300">Your Full Name</label>
           <input 
             type="text" 
             value={patientName} 
             onChange={(e) => setPatientName(e.target.value)} 
             required 
-            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-3 py-2 mt-1 text-white bg-zinc-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-300">Age</label>
+          <label className="block text-sm font-medium text-zinc-300">Age</label>
           <input 
             type="number" 
             value={age} 
             onChange={(e) => setAge(e.target.value)} 
             required
-            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-3 py-2 mt-1 text-white bg-zinc-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <div>
@@ -69,7 +94,7 @@ const BookAppointmentPage = () => {
             value={appointmentDate} 
             onChange={(e) => setAppointmentDate(e.target.value)} 
             required
-            className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-3 py-2 mt-1 text-white bg-zinc-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 

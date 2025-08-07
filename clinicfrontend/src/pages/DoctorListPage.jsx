@@ -11,7 +11,7 @@ const DoctorListPage = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await apiClient.get('/doctors/');
+        const response = await apiClient.get('/doctors');
         setDoctors(response.data);
       } catch (error) {
         console.error('Failed to fetch doctors:', error);

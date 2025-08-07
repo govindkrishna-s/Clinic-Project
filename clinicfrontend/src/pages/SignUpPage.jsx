@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import apiClient from '../services/api';
 
 const SignUpPage = () => {
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -14,8 +13,14 @@ const SignUpPage = () => {
     setError('');
 
     try {
-      await apiClient.post('/signup/', { username, password, email });
-      navigate('/login');
+        const payload = {
+            user: {
+                email: email,
+                password: password
+            }
+        };
+        await apiClient.post('/users/signup', payload);
+        navigate('/login');
     } catch (err) {
       if (err.response && err.response.data) {
         const errorMessages = Object.values(err.response.data).flat().join(' ');
@@ -31,11 +36,6 @@ const SignUpPage = () => {
     <div className="w-full max-w-md p-8 space-y-6 bg-zinc-900 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center text-white">Create an Account</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300">Username</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required 
-                 className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-primary focus:border-primary" />
-        </div>
         <div>
           <label className="block text-sm font-medium text-gray-300">Email</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
